@@ -1,0 +1,55 @@
+@import "../assets/scss/_variables.scss";
+
+.header-wrap {
+    .logo {
+        border: 2px solid $blue;
+        img {
+            height: 60px;
+            padding: 8px;
+            @media (max-width: 480px) {
+                height: 40px;
+                font-size: 14px;
+            }
+        }
+    }
+    .header-info {
+        width: 100%;
+        height: 64px;
+        background: $blue;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        @media (max-width: 480px) {
+            height: 44px;
+            font-size: 14px;
+        }
+    }
+    .logout-wrap {
+        height: 64px;
+        background: $blue;
+        @media (max-width: 480px) {
+            height: 44px;
+        }
+    }
+}
+.footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    height: 40px;
+    background: $blue;
+    color: white;
+}
+.logout-wrap {
+    .vert-icon {
+        color: white;
+    }
+}
+::ng-deep {
+    .mat-menu-content {
+        padding: 0px !important;
+        button {
+            border-radius: 5px;
+        }
+    }
+}

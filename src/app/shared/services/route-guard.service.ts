@@ -14,7 +14,7 @@ export class RouteGuardService implements CanActivate {
     return (async (resolve, reject) => {
       let user = await this.authService.getAuthentication();
       if (state.url === '/login') {
-        if (user) {
+        if (user.currentUser) {
           this.userService.setUserId(user);
           this._router.navigate(['/dashboard']);
           return false;
@@ -24,7 +24,7 @@ export class RouteGuardService implements CanActivate {
         }
       }
       else if (state.url === '/dashboard') {
-        if (!user) {
+        if (!user.currentUser) {
           this._router.navigate(['/login']);
           return false;
         }
