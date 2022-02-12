@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
+import firebase from 'firebase/compat/app';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouteGuardService implements CanActivate {
 
-  constructor(private _router: Router, private authService: AuthService, private userService: UserService) { }
+  constructor(private _router: Router, private authService: AuthService, private userService: UserService) {
+    firebase.initializeApp(environment.firebaseConfig)
+   }
   canActivate(route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<any> {
     return (async (resolve, reject) => {
