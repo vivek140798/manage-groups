@@ -4,6 +4,7 @@ import { MaterialModule } from '../material/material.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { TableGridComponent } from './components/table-grid/table-grid.component';
 import { EditorDialogComponent } from './components/editor-dialog/editor-dialog.component';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 @NgModule({
   declarations: [
@@ -13,12 +14,14 @@ import { EditorDialogComponent } from './components/editor-dialog/editor-dialog.
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    NgxShimmerLoadingModule
   ],
   exports:[
     PageNotFoundComponent,
     TableGridComponent,
-    EditorDialogComponent
+    EditorDialogComponent,
+    NgxShimmerLoadingModule
   ]
 })
 export class SharedModule { }

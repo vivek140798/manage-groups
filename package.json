@@ -20,13 +20,14 @@
     "@angular/material": "^13.2.2",
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
-    "@angular/router": "~13.2.0",
+    "@angular/router": "~13.2.0",  
+    "ngx-shimmer-loading": "^0.0.5",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4",
     "firebase": "^9.4.0",
     "rxfire": "^6.0.0"
-  },
+    },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.2.3",
     "@angular/cli": "~13.2.3",

@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
   selectedGroup: string = '';
   public tableConfigData: TableConfig;
   public snackBarData: SnackBarConfig;
+  loaderText: string = '';
   constructor(public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) {
   }
 
@@ -29,7 +30,7 @@ export class DashboardComponent implements OnInit {
 
   frameTableConfgiData() {
     this.tableConfigData.headers = ['Group Name', 'Status', 'Modify'];
-    this.tableConfigData.data = [{}];
+    this.tableConfigData.data = [{},{},{},{},{}];
     this.tableConfigData.keys = ['groupname', 'status'];
   }
 
@@ -52,21 +53,27 @@ export class DashboardComponent implements OnInit {
         if (result.identifier) {
           let res = { ...result };
           delete res.identifier;
+          this.loaderText = 'Updating';
           this.backendService.updateData(result.identifier, res).then((res) => {
+            this.loaderText = '';
             this.fetchData();
             this.frameSnackBarModel('successfully updated the group', 'top', 'center', 2000, ['success']);
             this.snackBarService.openSnackBar(this.snackBarData);
           }).catch((error)=>{
+            this.loaderText = '';
             this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
             this.snackBarService.openSnackBar(this.snackBarData);
           });
         }
         else {
+          this.loaderText = 'Creating';
           this.backendService.createData(result).then((res) => {
+            this.loaderText = '';
             this.fetchData();
             this.frameSnackBarModel('successfully created a group', 'top', 'center', 2000, ['success']);
             this.snackBarService.openSnackBar(this.snackBarData);
           }).catch((error)=>{
+            this.loaderText = '';
             this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
             this.snackBarService.openSnackBar(this.snackBarData);
           });
@@ -91,12 +98,15 @@ export class DashboardComponent implements OnInit {
       this.openEditorDialog('Edit the Group', event.item, 'Save', 'Cancel');
     }
     else if (event.action === 'delete') {
+      this.loaderText = 'Deleting';
       this.backendService.deleteData(event.item.identifier).then((res) => {
+        this.loaderText = '';
         this.fetchData();
         this.frameSnackBarModel('successfully deleted the group', 'top', 'center', 2000, ['success']);
         this.snackBarService.openSnackBar(this.snackBarData);
       })
       .catch((error)=>{
+        this.loaderText = '';
         this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
         this.snackBarService.openSnackBar(this.snackBarData);
       });
