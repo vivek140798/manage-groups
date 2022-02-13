@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TableConfig } from './../shared/models/table-config.model';
 import { BackendService } from '../shared/services/backend.service';
+import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
+import { SnackBarConfig } from 'src/app/shared/models/snack-bar.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,11 +16,13 @@ import { BackendService } from '../shared/services/backend.service';
 export class DashboardComponent implements OnInit {
   selectedGroup: string = '';
   public tableConfigData: TableConfig;
-  constructor(public router: Router, public dialog: MatDialog, private backendService: BackendService) {
+  public snackBarData: SnackBarConfig;
+  constructor(public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) {
   }
 
   ngOnInit() {
     this.tableConfigData = new TableConfig();
+    this.snackBarData = new SnackBarConfig();
     this.frameTableConfgiData();
     this.fetchData();
   }
@@ -27,6 +31,14 @@ export class DashboardComponent implements OnInit {
     this.tableConfigData.headers = ['Group Name', 'Status', 'Modify'];
     this.tableConfigData.data = [{}];
     this.tableConfigData.keys = ['groupname', 'status'];
+  }
+
+  frameSnackBarModel(message, verticalPosition, horizontalPosition, duration, panelClass) {
+    this.snackBarData.message = message;
+    this.snackBarData.verticalPosition = verticalPosition;
+    this.snackBarData.horizontalPosition = horizontalPosition;
+    this.snackBarData.duration = duration;
+    this.snackBarData.panelClass = panelClass;
   }
 
   openEditorDialog(title, record, actionText1, actionText2) {
@@ -42,12 +54,22 @@ export class DashboardComponent implements OnInit {
           delete res.identifier;
           this.backendService.updateData(result.identifier, res).then((res) => {
             this.fetchData();
+            this.frameSnackBarModel('successfully updated the group', 'top', 'center', 2000, ['success']);
+            this.snackBarService.openSnackBar(this.snackBarData);
+          }).catch((error)=>{
+            this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
+            this.snackBarService.openSnackBar(this.snackBarData);
           });
         }
         else {
           this.backendService.createData(result).then((res) => {
             this.fetchData();
-          })
+            this.frameSnackBarModel('successfully created a group', 'top', 'center', 2000, ['success']);
+            this.snackBarService.openSnackBar(this.snackBarData);
+          }).catch((error)=>{
+            this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
+            this.snackBarService.openSnackBar(this.snackBarData);
+          });
         }
       }
     });
@@ -71,7 +93,13 @@ export class DashboardComponent implements OnInit {
     else if (event.action === 'delete') {
       this.backendService.deleteData(event.item.identifier).then((res) => {
         this.fetchData();
+        this.frameSnackBarModel('successfully deleted the group', 'top', 'center', 2000, ['success']);
+        this.snackBarService.openSnackBar(this.snackBarData);
       })
+      .catch((error)=>{
+        this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
+        this.snackBarService.openSnackBar(this.snackBarData);
+      });
     }
   }
 
