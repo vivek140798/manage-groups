@@ -29,7 +29,8 @@ export class BackendService {
         response => {
           let groups:Array<any> = [];
           response.forEach((doc) => {
-            let item = {identifier: doc.id, data: doc.data()}
+            let item =doc.data();
+            item['identifier'] = doc.id;
             groups.push(item);
           });
           return resolve(groups);

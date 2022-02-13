@@ -45,9 +45,8 @@
         color: white;
     }
 }
-:host::ng-deep {
+::ng-deep {
     .mat-menu-content {
-        padding: 0px !important;
         button {
             border-radius: 5px;
         }

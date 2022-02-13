@@ -1,0 +1,40 @@
+@import "../../assets//scss/variables";
+.content-wrap {
+    margin: 20px 16px 40px 16px;
+    .outer-search-wrap {
+        display: flex;
+        justify-content: center;
+        @media (max-width: 480px) {
+            justify-content: left;
+        }
+        .search-wrap {
+            width: 50%;
+            position: relative;
+            @media (max-width: 480px) {
+                width: 75%;
+            }
+            .search-icon {
+                position: absolute;
+                right: 12px;
+                top: 8px;
+                cursor: pointer;
+            }
+            .search-bar {
+                height: 40px;
+                width: 100%;
+                border-radius: 10px;
+                padding: 8px;
+                padding-right: 30px;
+            }
+        }
+    }
+    .edit-btn {
+        button {
+            border-radius: 10px;
+            &:hover {
+                background-color: $blue;
+                color: white;
+            }
+        }
+    }
+}
