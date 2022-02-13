@@ -43,7 +43,7 @@ export class LoginPageComponent implements OnInit {
         let mail = this.loginFormGroup.controls['email'].value;
         let password = this.loginFormGroup.controls['password'].value;
         const user = await this.authService.signIn(mail, password);
-        this.userService.setUserId(user);
+        this.userService.setUserId(mail);
         this.router.navigate(['/dashboard']);
         this.loginEnabled = true;
         this.loginUnderProcess = false;
@@ -57,10 +57,5 @@ export class LoginPageComponent implements OnInit {
     else {
       this.loginUnderProcess = false;
     }
-  }
-  logout() {
-      this.authService.signOut().then((res)=>{
-        this.router.navigate(['/login']);
-      });
   }
 }

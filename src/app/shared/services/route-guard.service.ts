@@ -12,14 +12,13 @@ export class RouteGuardService implements CanActivate {
 
   constructor(private _router: Router, private authService: AuthService, private userService: UserService) {
     firebase.initializeApp(environment.firebaseConfig)
-   }
+  }
   canActivate(route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<any> {
     return (async (resolve, reject) => {
       let user = await this.authService.getAuthentication();
       if (state.url === '/login') {
         if (user.currentUser) {
-          this.userService.setUserId(user);
           this._router.navigate(['/dashboard']);
           return false;
         }
@@ -33,11 +32,10 @@ export class RouteGuardService implements CanActivate {
           return false;
         }
         else {
-          this.userService.setUserId(user);
           return true;
         }
       }
-      else{
+      else {
         return true;
       }
     })();

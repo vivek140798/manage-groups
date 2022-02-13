@@ -37,24 +37,42 @@ export class DashboardComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result !== 'cancelled') {
-
+        if (result.identifier) {
+          let res = { ...result };
+          delete res.identifier;
+          this.backendService.updateData(result.identifier, res).then((res) => {
+            this.fetchData();
+          });
+        }
+        else {
+          this.backendService.createData(result).then((res) => {
+            this.fetchData();
+          })
+        }
       }
     });
   }
 
-  create(){
-    this.openEditorDialog('Create a Group', null,'Save','Cancel');
+  create() {
+    this.openEditorDialog('Create a Group', null, 'Save', 'Cancel');
   }
 
-  fetchData(){
-    this.backendService.fetchData().then((res)=>{
+  fetchData() {
+    this.backendService.fetchData().then((res) => {
       this.tableConfigData.data = res;
-      this.tableConfigData = {...this.tableConfigData}
+      this.tableConfigData = { ...this.tableConfigData }
     })
   }
 
-  updateEntry(e) {
-
+  updateEntry(event) {
+    if (event.action === 'edit') {
+      this.openEditorDialog('Edit the Group', event.item, 'Save', 'Cancel');
+    }
+    else if (event.action === 'delete') {
+      this.backendService.deleteData(event.item.identifier).then((res) => {
+        this.fetchData();
+      })
+    }
   }
 
 }

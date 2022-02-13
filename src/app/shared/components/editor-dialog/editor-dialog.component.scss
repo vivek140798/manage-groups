@@ -1,38 +1,38 @@
 .editor-modal-wrapper {
-    width: 500px;
-    margin: -24px;
-    max-width: calc(100% + 48px);
-    .modal-dialog {
-      margin: 0px auto;
-      .modal-content {
-        border: none;
-        .modal-body {
-          max-height: 50vh;
-          overflow: scroll;
-          &::-webkit-scrollbar {
-            display: none;
-          }
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-          input,
-          select {
-            margin-bottom: 10px;
-            border-radius: 5px;
-          }
-          select {
-            height: 25px;
-            width: 138px;
-            border: 2px solid black;
-            cursor: pointer;
-          }
-          select option {
-            background: white;
-          }
-          label {
-            font-weight: bold;
-            margin-bottom: unset;
-          }
+  width: 500px;
+  margin: -24px;
+  max-width: calc(100% + 48px);
+  .modal-dialog {
+    margin: 0px auto;
+    .modal-content {
+      border: none;
+      .modal-body {
+        max-height: 50vh;
+        overflow: scroll;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        input,
+        select {
+          margin-bottom: 10px;
+          border-radius: 5px;
+        }
+        select {
+          height: 25px;
+          width: 138px;
+          border: 2px solid black;
+          cursor: pointer;
+        }
+        select option {
+          background: white;
+        }
+        label {
+          font-weight: bold;
+          margin-bottom: unset;
         }
       }
     }
   }
+}

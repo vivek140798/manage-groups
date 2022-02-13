@@ -1,29 +1,37 @@
 <div class="editor-modal-wrapper">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{ title }}</h5>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ title }}</h5>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="record === null">
+          <form>
+            <label>Group Name :</label><br>
+            <input type="text" id="groupname"><br>
+            <label>Status :</label><br>
+            <select id="status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </form>
         </div>
-        <div class="modal-body">
-          <div *ngIf="record === null">
-            <form>
-              <label>Group Name :</label><br>
-              <input type="text"><br>
-              <label>Status :</label><br>
-              <select>
-                <option>Active</option>
-                <option>Inactive</option>
-              </select>
-            </form>
-          </div>
-          <div *ngIf="record != null">
-  
-          </div>
+        <div *ngIf="record != null">
+          <form>
+            <label>Group Name :</label><br>
+            <input type="text" id="groupname" value="{{record.groupname}}"><br>
+            <label>Status :</label><br>
+            <select id="status">
+              <option value="Active" [selected]="isActive">Active</option>
+              <option value="Inactive" [selected]="!isActive">Inactive</option>
+            </select>
+          </form>
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary px-4" (click)="onConfirm()">{{ save }}</button>
-          <button class="btn btn-danger" (click)="onDismiss()">{{ cancel }}</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary px-4" (click)="onConfirm()">{{ save }}</button>
+        <button class="btn btn-danger" (click)="onDismiss()">{{ cancel }}</button>
       </div>
     </div>
   </div>
+</div>
