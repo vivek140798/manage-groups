@@ -23,10 +23,10 @@ export class TableGridComponent implements OnInit, OnChanges {
     this.initialize(this.tableConfigData);
   }
 
-  initialize(tableGridData) {
-    this.listHeader = tableGridData.headers;
-    this.dataList = tableGridData.data;
-    this.listKeys = tableGridData.keys;
+  initialize(tableConfigData) {
+    this.listHeader = tableConfigData.headers;
+    this.dataList = tableConfigData.data;
+    this.listKeys = tableConfigData.keys;
   }
 
   modifyItem(item, action) {
@@ -35,8 +35,8 @@ export class TableGridComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(data) {
-    if (data.tableGridData && data.tableGridData.previousValue != undefined) {
-      this.initialize(data.tableGridData.currentValue);
+    if (data.tableConfigData && data.tableConfigData.previousValue != undefined) {
+      this.initialize(data.tableConfigData.currentValue);
     }
   }
 

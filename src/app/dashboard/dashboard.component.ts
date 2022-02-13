@@ -48,7 +48,8 @@ export class DashboardComponent implements OnInit {
 
   fetchData(){
     this.backendService.fetchData().then((res)=>{
-      console.log(res);
+      this.tableConfigData.data = res;
+      this.tableConfigData = {...this.tableConfigData}
     })
   }
 
