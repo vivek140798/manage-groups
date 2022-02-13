@@ -58,4 +58,7 @@ export class LoginPageComponent implements OnInit {
       this.loginUnderProcess = false;
     }
   }
+  signup(){
+    this.loginEnabled = false;
+  }
 }

@@ -23,8 +23,8 @@
           <input type="password" class="mb-2 w-100">
         </div>
         <div class="login-footer d-flex justify-content-left">
-          <button (click)="login()" [disabled]="loginUnderProcess" class="mr-2"><span  *ngIf="loginUnderProcess" class="spinner-border spinner-border-sm text-blue" role="status"></span>Login</button>
-          <button (click)="loginEnabled = false" [disabled]="signupUnderProcess"><span    *ngIf="signupUnderProcess" class="spinner-border spinner-border-sm text-blue" role="status"></span>Register</button>
+          <button (click)="login()" [disabled]="loginUnderProcess || signupUnderProcess" class="mr-2"><span  *ngIf="loginUnderProcess" class="spinner-border spinner-border-sm text-blue" role="status"></span>Login</button>
+          <button (click)="signup()" [disabled]="signupUnderProcess || loginUnderProcess"><span    *ngIf="signupUnderProcess" class="spinner-border spinner-border-sm text-blue" role="status"></span>Register</button>
         </div> 
       </form>
     </div>

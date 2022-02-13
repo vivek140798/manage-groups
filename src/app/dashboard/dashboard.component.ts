@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
 
   frameTableConfgiData() {
     this.tableConfigData.headers = ['Group Name', 'Status', 'Modify'];
-    this.tableConfigData.data = [{},{},{},{},{}];
+    this.tableConfigData.data = [{}, {}, {}, {}, {}];
     this.tableConfigData.keys = ['groupname', 'status'];
   }
 
@@ -40,6 +40,28 @@ export class DashboardComponent implements OnInit {
     this.snackBarData.horizontalPosition = horizontalPosition;
     this.snackBarData.duration = duration;
     this.snackBarData.panelClass = panelClass;
+  }
+
+  searchGroup() {
+    let searchEntry = (<HTMLInputElement>document.getElementById('search-bar')).value;
+    if (searchEntry) {
+      let resultFound = false;
+      let entry = searchEntry.trim();
+      this.tableConfigData.data.forEach((item) => {
+        if (item.groupname.toLowerCase() === entry.toLowerCase()) {
+          resultFound = true;
+          this.tableConfigData.data = [item];
+          this.tableConfigData = { ...this.tableConfigData };
+        }
+      });
+      if (!resultFound) {
+        this.tableConfigData.data = [];
+        this.tableConfigData = { ...this.tableConfigData };
+      }
+    }
+    else {
+      this.fetchData();
+    }
   }
 
   openEditorDialog(title, record, actionText1, actionText2) {
@@ -59,7 +81,7 @@ export class DashboardComponent implements OnInit {
             this.fetchData();
             this.frameSnackBarModel('successfully updated the group', 'top', 'center', 2000, ['success']);
             this.snackBarService.openSnackBar(this.snackBarData);
-          }).catch((error)=>{
+          }).catch((error) => {
             this.loaderText = '';
             this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
             this.snackBarService.openSnackBar(this.snackBarData);
@@ -72,7 +94,7 @@ export class DashboardComponent implements OnInit {
             this.fetchData();
             this.frameSnackBarModel('successfully created a group', 'top', 'center', 2000, ['success']);
             this.snackBarService.openSnackBar(this.snackBarData);
-          }).catch((error)=>{
+          }).catch((error) => {
             this.loaderText = '';
             this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
             this.snackBarService.openSnackBar(this.snackBarData);
@@ -89,7 +111,7 @@ export class DashboardComponent implements OnInit {
   fetchData() {
     this.backendService.fetchData().then((res) => {
       this.tableConfigData.data = res;
-      this.tableConfigData = { ...this.tableConfigData }
+      this.tableConfigData = { ...this.tableConfigData };
     })
   }
 
@@ -105,11 +127,11 @@ export class DashboardComponent implements OnInit {
         this.frameSnackBarModel('successfully deleted the group', 'top', 'center', 2000, ['success']);
         this.snackBarService.openSnackBar(this.snackBarData);
       })
-      .catch((error)=>{
-        this.loaderText = '';
-        this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
-        this.snackBarService.openSnackBar(this.snackBarData);
-      });
+        .catch((error) => {
+          this.loaderText = '';
+          this.frameSnackBarModel('Something went wrong', 'top', 'center', 2000, ['error']);
+          this.snackBarService.openSnackBar(this.snackBarData);
+        });
     }
   }
 
