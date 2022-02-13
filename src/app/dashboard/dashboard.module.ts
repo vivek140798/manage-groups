@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { ContactsPageComponent } from './components/contacts-page/contacts-page.component';
 import { SharedModule } from './../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
-
+import { RouterModule } from '@angular/router';
+import { RouteGuardService } from '../shared/services/route-guard.service';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -14,9 +14,19 @@ import { MaterialModule } from '../material/material.module';
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule.forChild([
+      {
+        path: '',
+        component: DashboardComponent
+      },
+      {
+        path: 'contacts/:id',
+        component: ContactsPageComponent,
+        canActivate: [RouteGuardService]
+      }
+    ])
   ]
 })
 export class DashboardModule { }

@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { RouteGuardService } from './shared/services/route-guard.service';
-import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -11,7 +10,6 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    component: DashboardComponent,
     canActivate: [RouteGuardService]
   },
   { path: '404', component: PageNotFoundComponent },

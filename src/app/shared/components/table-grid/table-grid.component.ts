@@ -13,6 +13,7 @@ export class TableGridComponent implements OnInit, OnChanges {
   public listKeys: any;
   public allowEditing: boolean = false;
   @Input() tableConfigData: any;
+  @Input() navigateURL: any = null;
   public navigatable: boolean = false;
 
   @Output() actionEvent = new EventEmitter<any>();
@@ -41,8 +42,8 @@ export class TableGridComponent implements OnInit, OnChanges {
   }
 
   openList(item) {
-    if (true) {
-      this.router.navigate([''], { state: { item: item } });
+    if (this.navigateURL) {
+      this.router.navigate([this.navigateURL, item.identifier], { state: { item: item } });
     }
   }
 }

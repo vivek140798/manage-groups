@@ -35,6 +35,15 @@ export class RouteGuardService implements CanActivate {
           return true;
         }
       }
+      else if (state.url.includes('contacts')) {
+        if (user.currentUser) {
+          return true;
+        }
+        else {
+          this._router.navigate(['/login']);
+          return false;
+        }
+      }
       else {
         return true;
       }

@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   public tableConfigData: TableConfig;
   public snackBarData: SnackBarConfig;
   loaderText: string = '';
+  navigateURL:string= 'dashboard/contacts';
   constructor(private userService: UserService, public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) {
   }
 
