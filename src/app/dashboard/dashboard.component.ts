@@ -7,7 +7,7 @@ import { TableConfig } from './../shared/models/table-config.model';
 import { BackendService } from '../shared/services/backend.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { SnackBarConfig } from 'src/app/shared/models/snack-bar.model';
-
+import { UserService } from '../shared/services/user.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   public tableConfigData: TableConfig;
   public snackBarData: SnackBarConfig;
   loaderText: string = '';
-  constructor(public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) {
+  constructor(private userService: UserService, public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) {
   }
 
   ngOnInit() {
@@ -110,7 +110,14 @@ export class DashboardComponent implements OnInit {
 
   fetchData() {
     this.backendService.fetchData().then((res) => {
-      this.tableConfigData.data = res;
+      let data = [];
+      let user = this.userService.getUserId();
+      res.forEach((item)=>{
+        if(item.id == user){
+          data.push(item);
+        }
+      })
+      this.tableConfigData.data = data;
       this.tableConfigData = { ...this.tableConfigData };
     })
   }

@@ -14,6 +14,7 @@ export class LoginPageComponent implements OnInit {
   loginUnderProcess: boolean = false;
   signupUnderProcess: boolean = false;
   loginFormGroup: FormGroup;
+  signupFormGroup: FormGroup;
   submitted: boolean = false;
 
   constructor(private userService: UserService, private authService: AuthService, private formBuilder: FormBuilder, private router: Router
@@ -21,6 +22,13 @@ export class LoginPageComponent implements OnInit {
     this.loginFormGroup = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
+    });
+    this.signupFormGroup = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      aadhar: ['', Validators.required],
     });
   }
 
@@ -36,29 +44,54 @@ export class LoginPageComponent implements OnInit {
     }
   }
   async login() {
-    this.submitted = true;
-    this.loginUnderProcess = true;
-    if (this.loginFormGroup.valid) {
-      try {
-        let mail = this.loginFormGroup.controls['email'].value;
-        let password = this.loginFormGroup.controls['password'].value;
-        const user = await this.authService.signIn(mail, password);
-        this.userService.setUserId(mail);
-        this.router.navigate(['/dashboard']);
-        this.loginEnabled = true;
+    if(this.loginEnabled){
+      this.submitted = true;
+      this.loginUnderProcess = true;
+      if (this.loginFormGroup.valid) {
+        try {
+          let mail = this.loginFormGroup.controls['email'].value;
+          let password = this.loginFormGroup.controls['password'].value;
+          const user = await this.authService.signIn(mail, password);
+          this.userService.setUserId(mail);
+          this.router.navigate(['/dashboard']);
+          this.loginUnderProcess = false;
+          this.submitted = false;
+        } catch (error) {
+          this.loginUnderProcess = false;
+          this.submitted = false;
+          console.log(error);
+        }
+      }
+      else {
         this.loginUnderProcess = false;
-        this.submitted = false;
-      } catch (error) {
-        this.loginUnderProcess = false;
-        this.submitted = false;
-        console.log(error);
       }
     }
-    else {
-      this.loginUnderProcess = false;
+    else{
+      this.loginEnabled =true;
     }
   }
-  signup(){
-    this.loginEnabled = false;
+  async signup(){
+    if(this.loginEnabled){
+      this.loginEnabled = false;
+    }
+    else{
+      this.signupUnderProcess = true;
+      if (this.signupFormGroup.valid) {
+        try {
+          let mail = this.signupFormGroup.controls['email'].value;
+          let password = this.signupFormGroup.controls['password'].value;
+          const user = await this.authService.signUp(mail, password);
+          this.userService.setUserId(mail);
+          this.router.navigate(['/dashboard']);
+          this.signupUnderProcess = false;
+        } catch (error) {
+          this.signupUnderProcess = false;
+          console.log(error);
+        }
+      }
+      else {
+        this.signupUnderProcess = false;
+      }
+    }
   }
 }

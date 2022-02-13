@@ -1,31 +1,36 @@
 <div class="login-wrap d-flex justify-content-center align-items-center">
-    <div class="mt-4 login-section">
-      <form [formGroup]="loginFormGroup">
-        <div class="login-header">
-          <p class="m-0">Login</p>
-        </div>
-        <div *ngIf="loginEnabled" class="login-body">
-          <label>Email</label><br>
-          <input [ngClass]="{'submitted':submitted}" formControlName="email" type="text" class="mb-2 w-100"><br>
-          <label>Password</label><br>
-          <input [ngClass]="{'submitted':submitted}" formControlName="password" type="password" class="mb-2 w-100">
-        </div>
-        <div *ngIf="!loginEnabled" class="login-body">
-          <label>FirstName</label><br>
-          <input type="text" class="mb-2 w-100"><br>
-          <label>LastName</label><br>
-          <input type="text" class="mb-2 w-100"><br>
-          <label>Aadhar</label><br>
-          <input type="text" class="mb-2 w-100"><br>
-          <label>Email</label><br>
-          <input type="text" class="mb-2 w-100"><br>
-          <label>Password</label><br>
-          <input type="password" class="mb-2 w-100">
-        </div>
-        <div class="login-footer d-flex justify-content-left">
-          <button (click)="login()" [disabled]="loginUnderProcess || signupUnderProcess" class="mr-2"><span  *ngIf="loginUnderProcess" class="spinner-border spinner-border-sm text-blue" role="status"></span>Login</button>
-          <button (click)="signup()" [disabled]="signupUnderProcess || loginUnderProcess"><span    *ngIf="signupUnderProcess" class="spinner-border spinner-border-sm text-blue" role="status"></span>Register</button>
-        </div> 
-      </form>
+  <div class="mt-4 login-section">
+    <form [formGroup]="loginFormGroup">
+      <div class="login-header">
+        <p class="m-0">Login</p>
+      </div>
+      <div *ngIf="loginEnabled" class="login-body">
+        <label>Email</label><br>
+        <input [ngClass]="{'submitted':submitted}" formControlName="email" type="text" class="mb-2 w-100"><br>
+        <label>Password</label><br>
+        <input [ngClass]="{'submitted':submitted}" formControlName="password" type="password" class="mb-2 w-100">
+      </div>
+    </form>
+    <form [formGroup]="signupFormGroup">
+      <div *ngIf="!loginEnabled" class="login-body">
+        <label>FirstName</label><br>
+        <input type="text" formControlName="firstname" class="mb-2 w-100"><br>
+        <label>LastName</label><br>
+        <input type="text" formControlName="lastname" class="mb-2 w-100"><br>
+        <label>Aadhar</label><br>
+        <input type="text" formControlName="aadhar" class="mb-2 w-100"><br>
+        <label>Email</label><br>
+        <input type="text" formControlName="email" class="mb-2 w-100"><br>
+        <label>Password</label><br>
+        <input type="password" formControlName="password" class="mb-2 w-100">
+      </div>
+    </form>
+    <div class="login-footer d-flex justify-content-left">
+      <button (click)="login()" [disabled]="loginUnderProcess || signupUnderProcess" class="mr-2"><span
+          *ngIf="loginUnderProcess" class="spinner-border spinner-border-sm text-blue"
+          role="status"></span>Login</button>
+      <button (click)="signup()" [disabled]="signupUnderProcess || loginUnderProcess"><span *ngIf="signupUnderProcess"
+          class="spinner-border spinner-border-sm text-blue" role="status"></span>Register</button>
     </div>
   </div>
+</div>
