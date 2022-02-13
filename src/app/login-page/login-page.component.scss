@@ -1,0 +1,57 @@
+@import "../../assets/scss/_variables.scss";
+
+.login-wrap {
+    .login-section {
+        min-width: 30%;
+        border-radius: 15px;
+        border: 2px solid black;
+        .login-header {
+            padding: 8px 16px;
+            background-color: lightgrey;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            p {
+                font-size: 16px;
+                font-weight: bold;
+            }
+        }
+        .login-body {
+            padding: 8px 16px;
+            label {
+                font-size: 14px;
+                font-weight: bold;
+            }
+            input {
+                height: 35px;
+                border-radius: 5px;
+            }
+            input.submitted.ng-invalid {
+                border: 1px solid #f00;
+            }
+        }
+        .login-footer {
+            padding: 0px 16px 16px 16px;
+            button {
+                cursor: pointer;
+                border-radius: 5px;
+                background-color: white;
+                &:hover {
+                    background-color: $blue;
+                    color: white;
+                }
+                &:disabled {
+                    background-color: unset;
+                    color: unset;
+                    cursor: unset;
+                }
+                .spinner-border-sm {
+                    width: 0.75rem;
+                    height: 0.75rem;
+                }
+                .text-blue {
+                    color: $blue;
+                }
+            }
+        }
+    }
+}
