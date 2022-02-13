@@ -15,37 +15,40 @@ export class LoginPageComponent implements OnInit {
   signupUnderProcess: boolean = false;
   loginFormGroup: FormGroup;
   signupFormGroup: FormGroup;
-  submitted: boolean = false;
+  loginSubmitted:boolean = false;
+  signupSubmitted:boolean = false;
+  pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(inmar.in|inmar.com)$/;
 
   constructor(private userService: UserService, private authService: AuthService, private formBuilder: FormBuilder, private router: Router
   ) {
-    this.loginFormGroup = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
-    });
+    this.initializeLogin();
+    this.initializeSignup();
+  }
+
+  async ngOnInit() {
+
+  }
+
+  initializeSignup(){
     this.signupFormGroup = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern(this.pattern)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       aadhar: ['', Validators.required],
     });
   }
 
-  async ngOnInit() {
-    
+  initializeLogin(){
+    this.loginFormGroup = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
-  async enroll() {
-    try {
-      const user = await this.authService.signUp('','');
-      console.log(user);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
   async login() {
-    if(this.loginEnabled){
-      this.submitted = true;
+    if (this.loginEnabled) {
+      this.loginSubmitted = true;
       this.loginUnderProcess = true;
       if (this.loginFormGroup.valid) {
         try {
@@ -55,10 +58,8 @@ export class LoginPageComponent implements OnInit {
           this.userService.setUserId(mail);
           this.router.navigate(['/dashboard']);
           this.loginUnderProcess = false;
-          this.submitted = false;
         } catch (error) {
           this.loginUnderProcess = false;
-          this.submitted = false;
           console.log(error);
         }
       }
@@ -66,16 +67,19 @@ export class LoginPageComponent implements OnInit {
         this.loginUnderProcess = false;
       }
     }
-    else{
-      this.loginEnabled =true;
+    else {
+      this.loginEnabled = true;
+      this.initializeSignup();
     }
   }
-  async signup(){
-    if(this.loginEnabled){
+  async signup() {
+    if (this.loginEnabled) {
       this.loginEnabled = false;
+      this.initializeLogin();
     }
-    else{
+    else {
       this.signupUnderProcess = true;
+      this.signupSubmitted =true;
       if (this.signupFormGroup.valid) {
         try {
           let mail = this.signupFormGroup.controls['email'].value;

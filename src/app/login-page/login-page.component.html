@@ -6,23 +6,43 @@
       </div>
       <div *ngIf="loginEnabled" class="login-body">
         <label>Email</label><br>
-        <input [ngClass]="{'submitted':submitted}" formControlName="email" type="text" class="mb-2 w-100"><br>
+        <input [ngClass]="{'login-submitted':loginSubmitted}" formControlName="email" type="text" class="mb-2 w-100"><br>
+        <p class="error-msg" *ngIf="loginFormGroup.controls['email'].invalid && loginSubmitted ">Field is Mandatory<sup>*</sup></p>
         <label>Password</label><br>
-        <input [ngClass]="{'submitted':submitted}" formControlName="password" type="password" class="mb-2 w-100">
+        <input [ngClass]="{'login-submitted':loginSubmitted}" formControlName="password" type="password" class="mb-2 w-100">
+        <p class="error-msg" *ngIf="loginFormGroup.controls['password'].invalid && loginSubmitted ">Field is Mandatory<sup>*</sup></p>
       </div>
     </form>
     <form [formGroup]="signupFormGroup">
       <div *ngIf="!loginEnabled" class="login-body">
         <label>FirstName</label><br>
-        <input type="text" formControlName="firstname" class="mb-2 w-100"><br>
+        <input [ngClass]="{'signup-submitted':signupSubmitted}" type="text" formControlName="firstname" class="mb-2 w-100"><br>
+        <p class="error-msg" *ngIf="signupFormGroup.controls['firstname'].invalid && signupSubmitted">Field is Mandatory<sup>*</sup></p>
         <label>LastName</label><br>
-        <input type="text" formControlName="lastname" class="mb-2 w-100"><br>
+        <input [ngClass]="{'signup-submitted':signupSubmitted}" type="text" formControlName="lastname" class="mb-2 w-100"><br>
+        <p class="error-msg" *ngIf="signupFormGroup.controls['lastname'].invalid && signupSubmitted">Field is Mandatory<sup>*</sup></p>
         <label>Aadhar</label><br>
-        <input type="text" formControlName="aadhar" class="mb-2 w-100"><br>
+        <input [ngClass]="{'signup-submitted':signupSubmitted}" type="text" formControlName="aadhar" class="mb-2 w-100"><br>
+        <p class="error-msg" *ngIf="signupFormGroup.controls['aadhar'].invalid && signupSubmitted">Field is Mandatory<sup>*</sup></p>
         <label>Email</label><br>
-        <input type="text" formControlName="email" class="mb-2 w-100"><br>
+        <div class="input-email">
+          <input [ngClass]="{'signup-submitted':signupSubmitted}" type="text" formControlName="email" class="mb-2 w-100"
+            placeholder="example@inmar.com"><br>
+          <div class="info-icon">
+            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Only Inmar mails are valid">
+              <svg class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle"
+              viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+              <path
+                d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+            </svg>
+            </button>
+          </div>
+        </div>
+        <p class="error-msg" *ngIf="signupFormGroup.controls['email'].invalid && signupSubmitted">Only Inmar mails are valid<sup>*</sup></p>
         <label>Password</label><br>
-        <input type="password" formControlName="password" class="mb-2 w-100">
+        <input [ngClass]="{'signup-submitted':signupSubmitted}" type="password" formControlName="password" class="mb-2 w-100">
+        <p class="error-msg" *ngIf="signupFormGroup.controls['password'].invalid && signupSubmitted">Password should be min of 6 chars<sup>*</sup></p>
       </div>
     </form>
     <div class="login-footer d-flex justify-content-left">
