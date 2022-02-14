@@ -3,6 +3,8 @@ import { UserService } from '../shared/services/user.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
+import { SnackBarConfig } from '../shared/models/snack-bar.model';
+import { SnackBarService } from '../shared/services/snack-bar.service';
 
 @Component({
   selector: 'app-login-page',
@@ -17,16 +19,17 @@ export class LoginPageComponent implements OnInit {
   signupFormGroup: FormGroup;
   loginSubmitted:boolean = false;
   signupSubmitted:boolean = false;
+  public snackBarData: SnackBarConfig;
   pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(inmar.in|inmar.com)$/;
 
-  constructor(private userService: UserService, private authService: AuthService, private formBuilder: FormBuilder, private router: Router
+  constructor(private readonly snackBarService: SnackBarService, private userService: UserService, private authService: AuthService, private formBuilder: FormBuilder, private router: Router
   ) {
     this.initializeLogin();
     this.initializeSignup();
   }
 
   async ngOnInit() {
-
+    this.snackBarData = new SnackBarConfig();
   }
 
   initializeSignup(){
@@ -60,7 +63,8 @@ export class LoginPageComponent implements OnInit {
           this.loginUnderProcess = false;
         } catch (error) {
           this.loginUnderProcess = false;
-          console.log(error);
+          this.frameSnackBarModel('Email/Password is incorrect', 'top', 'center', 2000, ['error']);
+          this.snackBarService.openSnackBar(this.snackBarData);
         }
       }
       else {
@@ -90,12 +94,21 @@ export class LoginPageComponent implements OnInit {
           this.signupUnderProcess = false;
         } catch (error) {
           this.signupUnderProcess = false;
-          console.log(error);
+          this.frameSnackBarModel('Account already exist with the email', 'top', 'center', 2000, ['error']);
+          this.snackBarService.openSnackBar(this.snackBarData);
         }
       }
       else {
         this.signupUnderProcess = false;
       }
     }
+  }
+
+  frameSnackBarModel(message, verticalPosition, horizontalPosition, duration, panelClass) {
+    this.snackBarData.message = message;
+    this.snackBarData.verticalPosition = verticalPosition;
+    this.snackBarData.horizontalPosition = horizontalPosition;
+    this.snackBarData.duration = duration;
+    this.snackBarData.panelClass = panelClass;
   }
 }

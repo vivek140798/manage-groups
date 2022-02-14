@@ -87,3 +87,14 @@
         }
     }
 }
+
+//snack bar
+::ng-deep .success {
+    background: #2e8033;
+    color: white;
+}
+
+::ng-deep .error {
+    background: #f44336;
+    color: white;
+}

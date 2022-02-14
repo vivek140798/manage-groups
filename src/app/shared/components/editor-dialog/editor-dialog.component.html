@@ -61,6 +61,7 @@
             </form>
           </div>
         </div>
+        <p *ngIf="error" class="error-msg">Please fill all the fields<sup>*</sup></p>
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary px-4" (click)="onConfirm()">{{ save }}</button>
