@@ -32,6 +32,13 @@ export class LoginPageComponent implements OnInit {
   async ngOnInit() {
     this.snackBarData = new SnackBarConfig();
   }
+  initialize(){
+    this.loginUnderProcess = false;
+    this.signupUnderProcess = false;
+    this.loginSubmitted = false;
+    this.signupSubmitted = false;
+    this.strengthend = false;
+  }
 
   initializeSignup(){
     this.signupFormGroup = this.formBuilder.group({
@@ -41,6 +48,7 @@ export class LoginPageComponent implements OnInit {
       lastname: ['', Validators.required],
       aadhar: ['', Validators.required],
     });
+    this.initialize();
   }
 
   initializeLogin(){
@@ -48,6 +56,7 @@ export class LoginPageComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.initialize();
   }
 
   async login() {
