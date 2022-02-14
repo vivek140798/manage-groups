@@ -14,6 +14,7 @@ export class EditorDialogComponent implements OnInit {
   cancel: string;
   save: string;
   isActive: boolean = true;
+  type:string;
   constructor(
     public dialogRef: MatDialogRef<EditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EditorDialog, private userService: UserService
@@ -22,6 +23,7 @@ export class EditorDialogComponent implements OnInit {
     this.record = data.record;
     this.cancel = data.cancel;
     this.save = data.save;
+    this.type = data.type;
   }
 
   ngOnInit() {
@@ -36,18 +38,34 @@ export class EditorDialogComponent implements OnInit {
   }
 
   onConfirm(): void {
-    let groupname = (<HTMLInputElement>document.getElementById('groupname')).value;
-    let status = (<HTMLInputElement>document.getElementById('status')).value;
-    let id = this.userService.getUserId();
-    let data = {
-      groupname: groupname,
-      status: status,
-      id: id
-    };
-    if (this.record) {
-      data['identifier'] = this.record['identifier'];
+    if(this.type == 'groups'){
+      let groupname = (<HTMLInputElement>document.getElementById('groupname')).value;
+      let status = (<HTMLInputElement>document.getElementById('status')).value;
+      let id = this.userService.getUserId();
+      let data = {
+        groupname: groupname,
+        status: status,
+        id: id
+      };
+      if (this.record) {
+        data['identifier'] = this.record['identifier'];
+      }
+      this.dialogRef.close(data);
     }
-    this.dialogRef.close(data);
+    else if(this.type == 'contacts'){
+      let name = (<HTMLInputElement>document.getElementById('name')).value;
+      let contactno = (<HTMLInputElement>document.getElementById('contactno')).value;
+      let email = (<HTMLInputElement>document.getElementById('email')).value;
+      let status = (<HTMLInputElement>document.getElementById('status')).value;
+      let data = {
+        name: name,
+        contactno: contactno,
+        email: email,
+        status: status,
+        record: this.record
+      };
+      this.dialogRef.close(data);
+    }
   }
 
   onDismiss(): void {

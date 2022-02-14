@@ -5,27 +5,61 @@
         <h5 class="modal-title">{{ title }}</h5>
       </div>
       <div class="modal-body">
-        <div *ngIf="record === null">
-          <form>
-            <label>Group Name :</label><br>
-            <input type="text" id="groupname"><br>
-            <label>Status :</label><br>
-            <select id="status">
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-          </form>
+        <div *ngIf="type == 'groups'">
+          <div *ngIf="record === null">
+            <form>
+              <label>Group Name :</label><br>
+              <input type="text" id="groupname"><br>
+              <label>Status :</label><br>
+              <select id="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </form>
+          </div>
+          <div *ngIf="record != null">
+            <form>
+              <label>Group Name :</label><br>
+              <input type="text" id="groupname" value="{{record.groupname}}"><br>
+              <label>Status :</label><br>
+              <select id="status">
+                <option value="Active" [selected]="isActive">Active</option>
+                <option value="Inactive" [selected]="!isActive">Inactive</option>
+              </select>
+            </form>
+          </div>
         </div>
-        <div *ngIf="record != null">
-          <form>
-            <label>Group Name :</label><br>
-            <input type="text" id="groupname" value="{{record.groupname}}"><br>
-            <label>Status :</label><br>
-            <select id="status">
-              <option value="Active" [selected]="isActive">Active</option>
-              <option value="Inactive" [selected]="!isActive">Inactive</option>
-            </select>
-          </form>
+        <div *ngIf="type == 'contacts'">
+          <div *ngIf="record === null">
+            <form>
+              <label>Name :</label><br>
+              <input type="text" id="name"><br>
+              <label>Contact No :</label><br>
+              <input type="number" id="contactno"><br>
+              <label>Email :</label><br>
+              <input type="text" id="email"><br>
+              <label>Status :</label><br>
+              <select id="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </form>
+          </div>
+          <div *ngIf="record != null">
+            <form>
+              <label>Name :</label><br>
+              <input type="text" id="name" value="{{record.name}}"><br>
+              <label>Contact No :</label><br>
+              <input type="text" id="contactno" value="{{record.contactno}}"><br>
+              <label>Email :</label><br>
+              <input type="text" id="email" value="{{record.email}}"><br>
+              <label>Status :</label><br>
+              <select id="status">
+                <option value="Active" [selected]="isActive">Active</option>
+                <option value="Inactive" [selected]="!isActive">Inactive</option>
+              </select>
+            </form>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

@@ -48,13 +48,17 @@ export class DashboardComponent implements OnInit {
     if (searchEntry) {
       let resultFound = false;
       let entry = searchEntry.trim();
+      let data = [];
       this.tableConfigData.data.forEach((item) => {
         if (item.groupname.toLowerCase() === entry.toLowerCase()) {
           resultFound = true;
-          this.tableConfigData.data = [item];
-          this.tableConfigData = { ...this.tableConfigData };
+          data.push(item);
         }
       });
+      if (resultFound) {
+        this.tableConfigData.data = data;
+        this.tableConfigData = { ...this.tableConfigData };
+      }
       if (!resultFound) {
         this.tableConfigData.data = [];
         this.tableConfigData = { ...this.tableConfigData };
@@ -66,7 +70,7 @@ export class DashboardComponent implements OnInit {
   }
 
   openEditorDialog(title, record, actionText1, actionText2) {
-    const dialogData = new EditorDialog(title, record, actionText1, actionText2);
+    const dialogData = new EditorDialog('groups',title, record, actionText1, actionText2);
     const dialogRef = this.dialog.open(EditorDialogComponent, {
       data: dialogData,
       disableClose: true,
