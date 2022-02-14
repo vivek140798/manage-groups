@@ -20,6 +20,7 @@ export class LoginPageComponent implements OnInit {
   loginSubmitted:boolean = false;
   signupSubmitted:boolean = false;
   public snackBarData: SnackBarConfig;
+  strengthend:boolean = false;
   pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(inmar.in|inmar.com)$/;
 
   constructor(private readonly snackBarService: SnackBarService, private userService: UserService, private authService: AuthService, private formBuilder: FormBuilder, private router: Router
@@ -101,6 +102,17 @@ export class LoginPageComponent implements OnInit {
       else {
         this.signupUnderProcess = false;
       }
+    }
+  }
+
+  passwordCheck(){
+    let password = this.signupFormGroup.controls['password'].value;
+    let strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    if(strongRegex.test(password)){
+      this.strengthend = true;
+    }
+    else{
+      this.strengthend = false;
     }
   }
 

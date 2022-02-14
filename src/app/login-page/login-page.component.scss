@@ -36,7 +36,36 @@
                 line-height: 1px;
                 font-size: 10px;
             }
+            .success-msg{
+                color: #2e8033;
+                line-height: 1px;
+                font-size: 10px;
+            }
             .input-email{
+                position: relative;
+                input{
+                    padding-right: 40px;
+                }
+                .info-icon{
+                    position: absolute;
+                    right: -4px;
+                    top: -1px;
+                    cursor: pointer;
+                    button{
+                        background-color:  transparent;
+                        border: none;
+                        &:focus{
+                            background-color:  transparent;
+                            border: none ;
+                            box-shadow: none;  
+                        }
+                    }
+                    svg{
+                        color: black;
+                    }
+                }
+            }
+            .input-password{
                 position: relative;
                 input{
                     padding-right: 40px;
