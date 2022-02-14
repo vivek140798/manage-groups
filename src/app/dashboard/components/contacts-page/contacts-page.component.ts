@@ -28,6 +28,7 @@ export class ContactsPageComponent implements OnInit {
   totalList: any;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   paginationDisabled:boolean = true;
+  enableSort:boolean = false;
   constructor(private userService: UserService, public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) { }
 
   ngOnInit(): void {
@@ -61,6 +62,22 @@ export class ContactsPageComponent implements OnInit {
     this.tableConfigData.headers = ['Name', 'Contact No', 'Email', 'status','Modify'];
     this.tableConfigData.data = [{}, {}, {}, {}, {}];
     this.tableConfigData.keys = ['name', 'contactno','email','status'];
+  }
+
+  sort(){
+    let data = [];
+    data = this.currentData.contacts;
+    data.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+    this.length = data.length;
+    this.totalList = data;
+    data = this.totalList.slice(0, this.pageSize);
+    this.paginationDisabled = false;
+    this.tableConfigData.data = data;
+    this.tableConfigData = { ...this.tableConfigData };
   }
 
   searchContacts(){
@@ -170,6 +187,9 @@ export class ContactsPageComponent implements OnInit {
         this.totalList = data;
         data = this.totalList.slice(0, this.pageSize);
         this.paginationDisabled = false;
+        if(data.length){
+          this.enableSort = true;
+        }
         this.tableConfigData.data = data;
         this.tableConfigData = { ...this.tableConfigData };
       }

@@ -27,6 +27,7 @@ export class DashboardComponent implements OnInit {
   totalList: any;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   paginationDisabled:boolean = true;
+  enableSort:boolean = false;
 
   pageEvent: PageEvent;
   constructor(private userService: UserService, public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) {
@@ -61,6 +62,30 @@ export class DashboardComponent implements OnInit {
     this.snackBarData.horizontalPosition = horizontalPosition;
     this.snackBarData.duration = duration;
     this.snackBarData.panelClass = panelClass;
+  }
+
+  sort(){
+    this.backendService.fetchData().then((res) => {
+      let data = [];
+      let user = this.userService.getUserId();
+      res.forEach((item)=>{
+        if(item.id == user){
+          data.push(item);
+        }
+      })
+      data.sort((a, b) => {
+        if (a.groupname < b.groupname) return -1;
+        if (a.groupname > b.groupname) return 1;
+        return 0;
+      });
+      this.length = data.length;
+      this.totalList = data;
+      data = this.totalList.slice(0, this.pageSize);
+      this.paginationDisabled = false;
+
+      this.tableConfigData.data = data;
+      this.tableConfigData = { ...this.tableConfigData };
+    })
   }
 
   searchGroup() {
@@ -150,6 +175,9 @@ export class DashboardComponent implements OnInit {
       this.totalList = data;
       data = this.totalList.slice(0, this.pageSize);
       this.paginationDisabled = false;
+      if(data.length){
+        this.enableSort = true;
+      }
       this.tableConfigData.data = data;
       this.tableConfigData = { ...this.tableConfigData };
     })
