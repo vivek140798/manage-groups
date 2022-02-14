@@ -8,6 +8,7 @@ import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { EditorDialogComponent } from './../../../shared/components/editor-dialog/editor-dialog.component';
 import { EditorDialog } from './../../../shared/components/editor-dialog/editor-dialog.model';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-contacts-page',
@@ -21,6 +22,12 @@ export class ContactsPageComponent implements OnInit {
   groupTitle: any;
   loaderText: string = '';
   currentData:any;
+  length = 0;
+  pageSize = 5;
+  pageIndex:any;
+  totalList: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  paginationDisabled:boolean = true;
   constructor(private userService: UserService, public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) { }
 
   ngOnInit(): void {
@@ -33,6 +40,17 @@ export class ContactsPageComponent implements OnInit {
     this.snackBarData = new SnackBarConfig();
     this.frameTableConfgiData();
     this.fetchData();
+  }
+
+  onChangePage(pe:PageEvent) {
+    let data = [];
+    this.pageIndex =pe.pageIndex;
+    this.pageSize = pe.pageSize;
+    let start = this.pageSize * this.pageIndex ;
+    let end = start + this.pageSize;
+    data = this.totalList.slice(start, end);
+    this.tableConfigData.data = data;
+    this.tableConfigData = { ...this.tableConfigData };
   }
 
   getRandomId() {
@@ -51,8 +69,7 @@ export class ContactsPageComponent implements OnInit {
       let resultFound = false;
       let entry = searchEntry.trim();
       let data = [];
-      this.tableConfigData.data.forEach((item) => {
-        console.log(item)
+      this.currentData.contacts.forEach((item)=>{
         if (item.name.toLowerCase() === entry.toLowerCase()) {
           resultFound = true;
           data.push(item);
@@ -149,6 +166,10 @@ export class ContactsPageComponent implements OnInit {
         }
       })
       if(exist){
+        this.length = data.length;
+        this.totalList = data;
+        data = this.totalList.slice(0, this.pageSize);
+        this.paginationDisabled = false;
         this.tableConfigData.data = data;
         this.tableConfigData = { ...this.tableConfigData };
       }

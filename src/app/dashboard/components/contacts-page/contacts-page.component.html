@@ -17,6 +17,11 @@
           <h1 class="text-bold">{{groupTitle}}</h1>
         </div>
         <app-table-grid [tableConfigData]="tableConfigData" (actionEvent)="updateEntry($event)"></app-table-grid>
+        <div *ngIf="!paginationDisabled" class="d-flex justify-content-center">
+          <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+            (page)="onChangePage($event)" aria-label="Select page">
+          </mat-paginator>
+        </div>
         <div class="text-center edit-btn">
           <button class="mr-1 edit-btn" (click)="create()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
