@@ -41,3 +41,6 @@
     background: #f44336;
     color: white;
 }
+::ng-deep .mat-paginator-container{
+    justify-content: center !important;
+}
