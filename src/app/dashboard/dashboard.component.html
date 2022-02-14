@@ -1,7 +1,8 @@
 <div class="content-wrap">
   <div class="outer-search-wrap mb-4">
     <div class="search-wrap">
-      <input appDelayedInput (delayedInput)="searchGroup()" type="text" id="search-bar" class="search-bar" placeholder="Search your group with group name">
+      <input appDelayedInput (delayedInput)="searchGroup()" type="text" id="search-bar" class="search-bar"
+        placeholder="Search your group with group name">
       <div class="search-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
           viewBox="0 0 16 16">
@@ -16,7 +17,13 @@
       <div class="text-center">
         <h1 class="text-bold">Group Dashboard</h1>
       </div>
-      <app-table-grid [tableConfigData]="tableConfigData" [navigateURL]="navigateURL" (actionEvent)="updateEntry($event)"></app-table-grid>
+      <app-table-grid [tableConfigData]="tableConfigData" [navigateURL]="navigateURL"
+        (actionEvent)="updateEntry($event)"></app-table-grid>
+      <div *ngIf="!paginationDisabled" class="d-flex justify-content-center">
+        <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+          (page)="onChangePage($event)" aria-label="Select page">
+        </mat-paginator>
+      </div>
       <div class="text-center edit-btn">
         <button class="mr-1 edit-btn" (click)="create()">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"

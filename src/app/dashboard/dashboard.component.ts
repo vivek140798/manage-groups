@@ -8,6 +8,8 @@ import { BackendService } from '../shared/services/backend.service';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 import { SnackBarConfig } from 'src/app/shared/models/snack-bar.model';
 import { UserService } from '../shared/services/user.service';
+import { PageEvent } from '@angular/material/paginator';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -19,6 +21,14 @@ export class DashboardComponent implements OnInit {
   public snackBarData: SnackBarConfig;
   loaderText: string = '';
   navigateURL:string= 'dashboard/contacts';
+  length = 0;
+  pageSize = 5;
+  pageIndex:any;
+  totalList: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  paginationDisabled:boolean = true;
+
+  pageEvent: PageEvent;
   constructor(private userService: UserService, public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) {
   }
 
@@ -28,6 +38,16 @@ export class DashboardComponent implements OnInit {
     this.frameTableConfgiData();
     this.fetchData();
   }
+  onChangePage(pe:PageEvent) {
+    let data = [];
+    this.pageIndex =pe.pageIndex;
+    this.pageSize = pe.pageSize;
+    let start = this.pageSize * this.pageIndex ;
+    let end = start + this.pageSize;
+    data = this.totalList.slice(start, end);
+    this.tableConfigData.data = data;
+    this.tableConfigData = { ...this.tableConfigData };
+  } 
 
   frameTableConfgiData() {
     this.tableConfigData.headers = ['Group Name', 'Status', 'Modify'];
@@ -49,20 +69,24 @@ export class DashboardComponent implements OnInit {
       let resultFound = false;
       let entry = searchEntry.trim();
       let data = [];
-      this.tableConfigData.data.forEach((item) => {
-        if (item.groupname.toLowerCase() === entry.toLowerCase()) {
-          resultFound = true;
-          data.push(item);
-        }
+      this.backendService.fetchData().then((res) => {
+        let user = this.userService.getUserId();
+        res.forEach((item)=>{
+          if (item.groupname.toLowerCase() === entry.toLowerCase() && item.id == user) {
+            resultFound = true;
+            data.push(item);
+          }
+          this.paginationDisabled =true;
+          if (resultFound) {
+            this.tableConfigData.data = data;
+            this.tableConfigData = { ...this.tableConfigData };
+          }
+          if (!resultFound) {
+            this.tableConfigData.data = [];
+            this.tableConfigData = { ...this.tableConfigData };
+          }
+        })
       });
-      if (resultFound) {
-        this.tableConfigData.data = data;
-        this.tableConfigData = { ...this.tableConfigData };
-      }
-      if (!resultFound) {
-        this.tableConfigData.data = [];
-        this.tableConfigData = { ...this.tableConfigData };
-      }
     }
     else {
       this.fetchData();
@@ -122,6 +146,10 @@ export class DashboardComponent implements OnInit {
           data.push(item);
         }
       })
+      this.length = data.length;
+      this.totalList = data;
+      data = this.totalList.slice(0, this.pageSize);
+      this.paginationDisabled = false;
       this.tableConfigData.data = data;
       this.tableConfigData = { ...this.tableConfigData };
     })

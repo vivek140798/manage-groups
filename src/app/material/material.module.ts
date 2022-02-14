@@ -9,6 +9,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -22,7 +23,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatSnackBarModule,
     MatIconModule,
     MatSelectModule,
-    MatMenuModule
+    MatMenuModule,
+    MatPaginatorModule
   ],
   exports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatSnackBarModule,
     MatIconModule,
     MatSelectModule,
-    MatMenuModule
+    MatMenuModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }
