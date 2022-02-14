@@ -18,17 +18,18 @@ import { PageEvent } from '@angular/material/paginator';
 export class ContactsPageComponent implements OnInit {
   public tableConfigData: TableConfig;
   public snackBarData: SnackBarConfig;
-  groupId:any;
+  groupId: any;
   groupTitle: any;
   loaderText: string = '';
-  currentData:any;
+  currentData: any;
   length = 0;
   pageSize = 5;
-  pageIndex:any;
+  pageIndex: any;
   totalList: any;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  paginationDisabled:boolean = true;
-  enableSort:boolean = false;
+  paginationDisabled: boolean = true;
+  enableSort: boolean = false;
+  type: string = 'contacts';
   constructor(private userService: UserService, public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) { }
 
   ngOnInit(): void {
@@ -43,11 +44,11 @@ export class ContactsPageComponent implements OnInit {
     this.fetchData();
   }
 
-  onChangePage(pe:PageEvent) {
+  onChangePage(pe: PageEvent) {
     let data = [];
-    this.pageIndex =pe.pageIndex;
+    this.pageIndex = pe.pageIndex;
     this.pageSize = pe.pageSize;
-    let start = this.pageSize * this.pageIndex ;
+    let start = this.pageSize * this.pageIndex;
     let end = start + this.pageSize;
     data = this.totalList.slice(start, end);
     this.tableConfigData.data = data;
@@ -59,12 +60,12 @@ export class ContactsPageComponent implements OnInit {
   }
 
   frameTableConfgiData() {
-    this.tableConfigData.headers = ['Name', 'Contact No', 'Email', 'status','Modify'];
+    this.tableConfigData.headers = ['Name', 'Contact No', 'Email', 'status', 'Modify'];
     this.tableConfigData.data = [{}, {}, {}, {}, {}];
-    this.tableConfigData.keys = ['name', 'contactno','email','status'];
+    this.tableConfigData.keys = ['name', 'contactno', 'email', 'status'];
   }
 
-  sort(){
+  sort() {
     let data = [];
     data = this.currentData.contacts;
     data.sort((a, b) => {
@@ -80,29 +81,117 @@ export class ContactsPageComponent implements OnInit {
     this.tableConfigData = { ...this.tableConfigData };
   }
 
-  searchContacts(){
-    let searchEntry = (<HTMLInputElement>document.getElementById('search-bar')).value;
-    if (searchEntry) {
-      let resultFound = false;
-      let entry = searchEntry.trim();
-      let data = [];
-      this.currentData.contacts.forEach((item)=>{
-        if (item.name.toLowerCase() === entry.toLowerCase()) {
-          resultFound = true;
-          data.push(item);
-        }
-      });
-      if(resultFound){
-        this.tableConfigData.data = data;
-        this.tableConfigData = { ...this.tableConfigData };
-      }
-      if (!resultFound) {
-        this.tableConfigData.data = [];
-        this.tableConfigData = { ...this.tableConfigData };
-      }
+  closed(event) {
+    this.fetchData();
+  }
+
+
+  search(event) {
+    let name = event.name.toLowerCase().trim();
+    let contactno = event.contactno;
+    let email = event.email.toLowerCase().trim();
+    let status = event.status;
+    let data = [];
+    if (!name && !contactno && !email && !status) {
+      this.paginationDisabled = false;
+      this.tableConfigData.data = data;
+      this.tableConfigData = { ...this.tableConfigData };
     }
     else {
-      this.fetchData();
+      if (name && contactno && email && status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.name.toLowerCase() === name.toLowerCase() && item.contactno == contactno && item.email == email && item.status == status) {
+            data.push(item);
+          }
+        });
+      }
+      else if (!name && contactno && email && status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.contactno == contactno && item.email == email && item.status == status) {
+            data.push(item);
+          }
+        });
+      }
+      else if (name && !contactno && email && status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.name.toLowerCase() === name.toLowerCase() && item.email == email && item.status == status) {
+            data.push(item);
+          }
+        });
+      }
+      else if (name && contactno && !email && status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.name.toLowerCase() === name.toLowerCase() && item.contactno == contactno && item.status == status) {
+            data.push(item);
+          }
+        });
+      }
+      else if (name && contactno && email && !status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.name.toLowerCase() === name.toLowerCase() && item.contactno == contactno && item.email == email) {
+            data.push(item);
+          }
+        });
+      }
+      else if (!name && !contactno && email && status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.email == email && item.status == status) {
+            data.push(item);
+          }
+        });
+      }
+      else if (name && !contactno && !email && status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.name.toLowerCase() === name.toLowerCase() && item.status == status) {
+            data.push(item);
+          }
+        });
+      }
+      else if (name && contactno && !email && !status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.name.toLowerCase() === name.toLowerCase() && item.contactno == contactno) {
+            data.push(item);
+          }
+        });
+      }
+      else if (!name && contactno && email && !status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.contactno == contactno && item.email == email) {
+            data.push(item);
+          }
+        });
+      }
+      else if (!name && !contactno && !email && status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.status == status) {
+            data.push(item);
+          }
+        });
+      }
+      else if (name && !contactno && !email && !status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.name.toLowerCase() === name.toLowerCase()) {
+            data.push(item);
+          }
+        });
+      }
+      else if (!name && contactno && !email && !status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.contactno == contactno) {
+            data.push(item);
+          }
+        });
+      }
+      else if (!name && !contactno && email && !status) {
+        this.currentData.contacts.forEach((item) => {
+          if (item.email == email) {
+            data.push(item);
+          }
+        });
+      }
+      this.paginationDisabled = false;
+      this.tableConfigData.data = data;
+      this.tableConfigData = { ...this.tableConfigData };
     }
   }
   openEditorDialog(title, record, actionText1, actionText2) {
@@ -116,12 +205,12 @@ export class ContactsPageComponent implements OnInit {
         if (result.record) {
           let res = { ...this.currentData };
           delete res.identifier;
-          let entry = {...result};
+          let entry = { ...result };
           entry['id'] = result.record.id;
           delete entry.record;
           this.loaderText = 'Updating';
-          res.contacts.forEach((item,index)=>{
-            if(item.id == result.record.id){
+          res.contacts.forEach((item, index) => {
+            if (item.id == result.record.id) {
               res.contacts[index] = entry;
             }
           });
@@ -140,13 +229,13 @@ export class ContactsPageComponent implements OnInit {
           this.loaderText = 'Creating';
           let res = { ...this.currentData };
           delete res.identifier;
-          let entry = {...result};
+          let entry = { ...result };
           entry['id'] = this.getRandomId();
           delete entry.record;
-          if(res.contacts){
+          if (res.contacts) {
             res.contacts.push(entry);
           }
-          else{
+          else {
             res['contacts'] = [entry];
           }
           this.backendService.updateData(this.currentData.identifier, res).then((res) => {
@@ -173,27 +262,27 @@ export class ContactsPageComponent implements OnInit {
       let exist = false;
       let data = [];
       let user = this.userService.getUserId();
-      res.forEach((item)=>{
-        if(item.identifier == this.groupId ){
+      res.forEach((item) => {
+        if (item.identifier == this.groupId) {
           exist = true;
-          if(item.contacts){
+          if (item.contacts) {
             data = item.contacts;
           }
           this.currentData = item;
         }
       })
-      if(exist){
+      if (exist) {
         this.length = data.length;
         this.totalList = data;
         data = this.totalList.slice(0, this.pageSize);
         this.paginationDisabled = false;
-        if(data.length){
+        if (data.length) {
           this.enableSort = true;
         }
         this.tableConfigData.data = data;
         this.tableConfigData = { ...this.tableConfigData };
       }
-      else{
+      else {
         this.router.navigate['/dashboard'];
       }
     })
@@ -205,11 +294,11 @@ export class ContactsPageComponent implements OnInit {
     }
     else if (event.action === 'delete') {
       this.loaderText = 'Deleting';
-      let res = {...this.currentData};
+      let res = { ...this.currentData };
       delete res.identifier;
-      res.contacts.forEach((item,index)=>{
-        if(item.id == event.item.id){
-          res.contacts.splice(index,1);
+      res.contacts.forEach((item, index) => {
+        if (item.id == event.item.id) {
+          res.contacts.splice(index, 1);
         }
       })
       this.backendService.updateData(this.currentData.identifier, res).then((res) => {

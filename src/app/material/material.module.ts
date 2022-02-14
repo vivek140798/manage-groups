@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatIconModule,
     MatSelectModule,
     MatMenuModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule
   ],
   exports: [
     CommonModule,
@@ -37,7 +39,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatIconModule,
     MatSelectModule,
     MatMenuModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule
   ]
 })
 export class MaterialModule { }

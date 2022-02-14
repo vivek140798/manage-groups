@@ -1,0 +1,90 @@
+<div class="global-search-component-wrapper">
+    <div class="container">
+        <div class="shadow-box">
+            <div class="global-search-wrapper">
+                <mat-accordion>
+                    <mat-expansion-panel [hideToggle]="globalSearchOpened" (opened)="globalSearchOpenedAction()"
+                        (closed)="globalSearchClosedAction()" [expanded]="globalSearchOpened">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="justify-content-center">
+                                <span class='gs-title'>Global Search</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="type == 'groups'">
+                            <form [formGroup]="globalSearchGroup">
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Group name :</label>
+                                            <input type="text" class="form-control" formControlName="groupname" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Status :</label>
+                                            <select class="form-control" formControlName="status">
+                                                <option disabled value>Select status</option>
+                                                <option value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col d-flex justify-content-end">
+                                        <div>
+                                            <button (click)="search()" mat-raised-button color="primary">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div *ngIf="type == 'contacts'">
+                            <form [formGroup]="globalSearchGroup">
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name :</label>
+                                            <input type="text" class="form-control" formControlName="name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Contact No :</label>
+                                            <input type="number" class="form-control" formControlName="contactno" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Aadhar :</label>
+                                            <input type="text" class="form-control" formControlName="email" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Status :</label>
+                                            <select class="form-control" formControlName="status">
+                                                <option disabled value>Select status</option>
+                                                <option value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col d-flex justify-content-end">
+                                        <div>
+                                            <button (click)="search()" mat-raised-button color="primary">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</div>

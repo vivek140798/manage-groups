@@ -20,14 +20,15 @@ export class DashboardComponent implements OnInit {
   public tableConfigData: TableConfig;
   public snackBarData: SnackBarConfig;
   loaderText: string = '';
-  navigateURL:string= 'dashboard/contacts';
+  navigateURL: string = 'dashboard/contacts';
   length = 0;
   pageSize = 5;
-  pageIndex:any;
+  pageIndex: any;
   totalList: any;
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  paginationDisabled:boolean = true;
-  enableSort:boolean = false;
+  paginationDisabled: boolean = true;
+  enableSort: boolean = false;
+  type: string = 'groups';
 
   pageEvent: PageEvent;
   constructor(private userService: UserService, public router: Router, public dialog: MatDialog, private readonly snackBarService: SnackBarService, private backendService: BackendService) {
@@ -39,16 +40,16 @@ export class DashboardComponent implements OnInit {
     this.frameTableConfgiData();
     this.fetchData();
   }
-  onChangePage(pe:PageEvent) {
+  onChangePage(pe: PageEvent) {
     let data = [];
-    this.pageIndex =pe.pageIndex;
+    this.pageIndex = pe.pageIndex;
     this.pageSize = pe.pageSize;
-    let start = this.pageSize * this.pageIndex ;
+    let start = this.pageSize * this.pageIndex;
     let end = start + this.pageSize;
     data = this.totalList.slice(start, end);
     this.tableConfigData.data = data;
     this.tableConfigData = { ...this.tableConfigData };
-  } 
+  }
 
   frameTableConfgiData() {
     this.tableConfigData.headers = ['Group Name', 'Status', 'Modify'];
@@ -64,12 +65,12 @@ export class DashboardComponent implements OnInit {
     this.snackBarData.panelClass = panelClass;
   }
 
-  sort(){
+  sort() {
     this.backendService.fetchData().then((res) => {
       let data = [];
       let user = this.userService.getUserId();
-      res.forEach((item)=>{
-        if(item.id == user){
+      res.forEach((item) => {
+        if (item.id == user) {
           data.push(item);
         }
       })
@@ -88,38 +89,65 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  searchGroup() {
-    let searchEntry = (<HTMLInputElement>document.getElementById('search-bar')).value;
-    if (searchEntry) {
-      let resultFound = false;
-      let entry = searchEntry.trim();
-      let data = [];
-      this.backendService.fetchData().then((res) => {
-        let user = this.userService.getUserId();
-        res.forEach((item)=>{
-          if (item.groupname.toLowerCase() === entry.toLowerCase() && item.id == user) {
-            resultFound = true;
-            data.push(item);
-          }
-          this.paginationDisabled =true;
-          if (resultFound) {
-            this.tableConfigData.data = data;
-            this.tableConfigData = { ...this.tableConfigData };
-          }
-          if (!resultFound) {
-            this.tableConfigData.data = [];
-            this.tableConfigData = { ...this.tableConfigData };
-          }
-        })
-      });
+  closed(event){
+    this.fetchData();
+  }
+
+  search(event) {
+    let groupname = event.groupname.toLowerCase().trim();
+    let status = event.status;
+    let data = [];
+    if(!groupname && !status){
+      this.paginationDisabled = true;
+      this.tableConfigData.data = data;
+      this.tableConfigData = { ...this.tableConfigData };
     }
-    else {
-      this.fetchData();
+    else{
+      if(groupname && !status){
+        this.backendService.fetchData().then((res) => {
+          let user = this.userService.getUserId();
+          res.forEach((item) => {
+            if (item.groupname.toLowerCase() === groupname && item.id == user) {
+              data.push(item);
+            }
+          });
+          this.paginationDisabled = true;
+          this.tableConfigData.data = data;
+          this.tableConfigData = { ...this.tableConfigData };
+        });
+      }
+      else if(!groupname && status){
+        this.backendService.fetchData().then((res) => {
+          let user = this.userService.getUserId();
+          res.forEach((item) => {
+            if (item.status === status && item.id == user ) {
+              data.push(item);
+            }
+          });
+          this.paginationDisabled = true;
+          this.tableConfigData.data = data;
+          this.tableConfigData = { ...this.tableConfigData };
+        });
+      }
+      else if(groupname && status){
+        this.backendService.fetchData().then((res) => {
+          let user = this.userService.getUserId();
+          res.forEach((item) => {
+            if (item.groupname.toLowerCase() === groupname && item.id == user && item.status === status ) {
+              data.push(item);
+            }
+          });
+          this.paginationDisabled = true;
+          this.tableConfigData.data = data;
+          this.tableConfigData = { ...this.tableConfigData };
+        });
+      }
     }
+   
   }
 
   openEditorDialog(title, record, actionText1, actionText2) {
-    const dialogData = new EditorDialog('groups',title, record, actionText1, actionText2);
+    const dialogData = new EditorDialog('groups', title, record, actionText1, actionText2);
     const dialogRef = this.dialog.open(EditorDialogComponent, {
       data: dialogData,
       disableClose: true,
@@ -166,8 +194,8 @@ export class DashboardComponent implements OnInit {
     this.backendService.fetchData().then((res) => {
       let data = [];
       let user = this.userService.getUserId();
-      res.forEach((item)=>{
-        if(item.id == user){
+      res.forEach((item) => {
+        if (item.id == user) {
           data.push(item);
         }
       })
@@ -175,7 +203,7 @@ export class DashboardComponent implements OnInit {
       this.totalList = data;
       data = this.totalList.slice(0, this.pageSize);
       this.paginationDisabled = false;
-      if(data.length){
+      if (data.length) {
         this.enableSort = true;
       }
       this.tableConfigData.data = data;
