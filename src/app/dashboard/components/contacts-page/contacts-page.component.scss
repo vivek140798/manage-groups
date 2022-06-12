@@ -2,6 +2,7 @@
 .content-wrap {
     margin: 20px 16px 40px 16px;
     .edit-btn {
+        height: 80px;
         button {
             border-radius: 10px;
             &:hover {
@@ -28,6 +29,13 @@
         align-items: center;
         h2 {
             color: white;
+        }
+        @media (max-width: 480px) {
+            background-color: unset;
+            .loader-wrap{
+                background-color: black;
+                width: 100%;
+            }
         }
     }
 }

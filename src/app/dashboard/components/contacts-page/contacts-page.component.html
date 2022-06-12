@@ -3,7 +3,7 @@
   <div class="container">
     <div class="shadow-box">
       <div class="text-center">
-        <h1 class="text-bold">{{groupTitle}}</h1>
+        <h5 class="text-bold">{{groupTitle}}</h5>
       </div>
       <app-table-grid [tableConfigData]="tableConfigData" (actionEvent)="updateEntry($event)"></app-table-grid>
       <div *ngIf="!paginationDisabled" class="d-flex justify-content-center">
@@ -28,8 +28,10 @@
         </button>
       </div>
       <div *ngIf="loaderText != '' " class="under-process-container">
-        <span class="spinner-border" role="status" aria-hidden="true"></span>
+        <div class="loader-wrap d-flex justify-content-center align-items-center">
+          <span class="spinner-border" role="status" aria-hidden="true"></span>
         <h2 class="mb-0 ml-2">{{loaderText}}...</h2>
+        </div>
       </div>
     </div>
   </div>

@@ -21,7 +21,7 @@ export class LoginPageComponent implements OnInit {
   signupSubmitted:boolean = false;
   public snackBarData: SnackBarConfig;
   strengthend:boolean = false;
-  pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(inmar.in|inmar.com)$/;
+  pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(gmail.in|gmail.com)$/;
 
   constructor(private readonly snackBarService: SnackBarService, private userService: UserService, private authService: AuthService, private formBuilder: FormBuilder, private router: Router
   ) {
@@ -49,6 +49,11 @@ export class LoginPageComponent implements OnInit {
       aadhar: ['', Validators.required],
     });
     this.initialize();
+  }
+
+  openInfo(info){
+    this.frameSnackBarModel(info, 'top', 'center', 5000, ['info']);
+    this.snackBarService.openSnackBar(this.snackBarData);
   }
 
   initializeLogin(){

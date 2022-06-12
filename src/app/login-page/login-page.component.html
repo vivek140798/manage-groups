@@ -27,10 +27,10 @@
         <label>Email</label><br>
         <div class="input-email">
           <input [ngClass]="{'signup-submitted':signupSubmitted}" type="text" formControlName="email" class="mb-2 w-100"
-            placeholder="example@inmar.com"><br>
+            placeholder="example@gmail.com"><br>
           <div class="info-icon">
-            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Only Inmar mails are valid">
-              <svg class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle"
+            <button (click)="openInfo('Only google mails are valid')" type="button" class="btn btn-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle"
               viewBox="0 0 16 16">
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
               <path
@@ -39,13 +39,13 @@
             </button>
           </div>
         </div>
-        <p class="error-msg" *ngIf="signupFormGroup.controls['email'].invalid && signupSubmitted">Only Inmar mails are valid<sup>*</sup></p>
+        <p class="error-msg" *ngIf="signupFormGroup.controls['email'].invalid && signupSubmitted">Only google mails are valid<sup>*</sup></p>
         <label>Password</label><br>
         <div class="input-password">
           <input appDelayedInput (delayedInput)="passwordCheck()" [ngClass]="{'signup-submitted':signupSubmitted}" type="password" formControlName="password" class="mb-2 w-100">
         <div class="info-icon">
-          <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Strong passwords contains &#013; atleast 1 Uppercase letter &#013; 1 Lowercase letter &#013; 1 number &#013; 1 special character &#013; minimum of 8 characters in length">
-            <svg class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle"
+          <button (click)="openInfo('Strong passwords contains atleast 1 Uppercase letter, 1 Lowercase letter, 1 number, 1 special character, minimum of 8 characters in length')" type="button" class="btn btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle"
             viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
             <path
